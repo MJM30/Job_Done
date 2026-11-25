@@ -287,6 +287,7 @@
                 <p class="jd-card__statement">${App.escapeHtml(card.question.en)}</p>
                 <p class="jd-card__sub">${App.escapeHtml(card.question.fr)}</p>
               </div>
+              <div class="jd-card__footer">${card.answer ? txt("trueDot") : txt("falseDot")}</div>
             </article>
           `;
           btn.addEventListener("click", () => openCardDetail(card.id, true));
