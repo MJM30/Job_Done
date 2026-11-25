@@ -18,7 +18,6 @@
       </a>
       <nav class="navbar__links" aria-label="Navigation principale">
         <a href="index.html" class="nav-link is-active" id="navCardsLink">Les 60 cartes</a>
-        <a href="pages/qrcodes.html" class="nav-link">QR Codes (60)</a>
         <a href="pages/regles.html" class="nav-link" data-i18n="navRules">Règles</a>
       </nav>
       <div class="navbar__actions">
@@ -108,6 +107,15 @@
           </div>
 
           <div class="points-reminder" id="pointsReminder"></div>
+
+          <div class="card" style="display:flex;align-items:center;gap:18px;flex-wrap:wrap;padding:16px 20px;">
+            <img id="detailQrImg" src="" alt="QR Code de la carte" width="110" height="110" style="border:2px solid var(--color-black);border-radius:8px;background:#FFFFFF;" />
+            <div style="flex:1;min-width:180px;">
+              <div style="font-weight:900;font-size:0.98rem;margin-bottom:4px;" id="detailQrTitle">QR Code de cette carte</div>
+              <p style="font-size:0.86rem;opacity:0.8;margin-bottom:10px;" id="detailQrSub">Scannez ou téléchargez ce QR code pour le coller au dos de la carte imprimée.</p>
+              <a id="detailQrDownload" href="#" download class="btn btn--secondary btn--sm">Télécharger le QR Code (PNG)</a>
+            </div>
+          </div>
 
           <div class="detail-nav-actions">
             <button type="button" class="btn btn--secondary btn--sm" id="prevCardBtn">← Carte précédente</button>
@@ -321,6 +329,13 @@
         document.getElementById("whyText").textContent = card.explanation[lang];
         document.getElementById("pointsReminder").textContent =
           card.level === "simple" ? txt("pointsSimple") : txt("pointsDifficile");
+
+        const qrFile = `${card.level === "simple" ? "niveau1-simple" : "niveau2-difficile"}-${String(card.number).padStart(2, "0")}.png`;
+        const qrPath = `assets/qrcodes/${qrFile}`;
+        document.getElementById("detailQrImg").src = qrPath;
+        const dlLink = document.getElementById("detailQrDownload");
+        dlLink.href = qrPath;
+        dlLink.setAttribute("download", `job-done-qr-${qrFile}`);
 
         document.getElementById("prevCardBtn").disabled = card.id <= 1;
         document.getElementById("nextCardBtn").disabled = card.id >= QUESTIONS.length;
