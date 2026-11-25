@@ -284,7 +284,8 @@
                 <span class="jd-card__logo-line">DONE</span>
               </div>
               <div class="jd-card__body">
-                <p class="jd-card__statement">${App.escapeHtml(card.question[lang])}</p>
+                <p class="jd-card__statement">${App.escapeHtml(card.question.en)}</p>
+                <p class="jd-card__sub">${App.escapeHtml(card.question.fr)}</p>
               </div>
             </article>
           `;
@@ -317,8 +318,8 @@
         void cardEl.offsetWidth;
         cardEl.classList.add(card.level === "simple" ? "jd-card--simple" : "jd-card--difficile", "anim-pop");
 
-        document.getElementById("detailStatement").textContent = card.question[lang];
-        document.getElementById("detailSubStatement").textContent = card.question[otherLang];
+        document.getElementById("detailStatement").textContent = card.question.en;
+        document.getElementById("detailSubStatement").textContent = card.question.fr;
         document.getElementById("detailCardFooter").textContent = card.answer ? txt("trueDot") : txt("falseDot");
 
         const verdict = document.getElementById("answerVerdict");
