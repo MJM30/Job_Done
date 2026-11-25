@@ -333,10 +333,11 @@
           card.level === "simple" ? txt("pointsSimple") : txt("pointsDifficile");
 
         const qrFile = `${card.level === "simple" ? "niveau1-simple" : "niveau2-difficile"}-${String(card.number).padStart(2, "0")}.png`;
-        const qrPath = `assets/qrcodes/${qrFile}`;
-        document.getElementById("detailQrImg").src = qrPath;
+        const liveCardUrl = `${window.location.origin}${window.location.pathname}?id=${card.id}`;
+        const qrApiUrl = `https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=12&color=191102&bgcolor=FFFFFF&data=${encodeURIComponent(liveCardUrl)}`;
+        document.getElementById("detailQrImg").src = qrApiUrl;
         const dlLink = document.getElementById("detailQrDownload");
-        dlLink.href = qrPath;
+        dlLink.href = qrApiUrl;
         dlLink.setAttribute("download", `job-done-qr-${qrFile}`);
 
         document.getElementById("prevCardBtn").disabled = card.id <= 1;
