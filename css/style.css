@@ -1,0 +1,643 @@
+/* =========================================================
+   JOB DONE ? — Global Design System
+   Strict Palette:
+   - White:        #FFFFFF
+   - Golden Yellow:#F3B61F
+   - Olive Green:  #A29F15
+   - Dark Red:     #510D0A
+   - Deep Black:   #191102
+   ========================================================= */
+
+:root {
+  --color-white: #FFFFFF;
+  --color-gold: #F3B61F;
+  --color-olive: #A29F15;
+  --color-red: #510D0A;
+  --color-black: #191102;
+
+  /* Strictly derived alpha tints from the 5 palette colors */
+  --tint-black-05: rgba(25, 17, 2, 0.05);
+  --tint-black-10: rgba(25, 17, 2, 0.10);
+  --tint-black-20: rgba(25, 17, 2, 0.20);
+  --tint-black-65: rgba(25, 17, 2, 0.65);
+  --tint-gold-12: rgba(243, 182, 31, 0.12);
+  --tint-gold-25: rgba(243, 182, 31, 0.25);
+  --tint-olive-12: rgba(162, 159, 21, 0.12);
+  --tint-olive-22: rgba(162, 159, 21, 0.22);
+  --tint-red-10: rgba(81, 13, 10, 0.10);
+  --tint-red-18: rgba(81, 13, 10, 0.18);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 2px 8px rgba(25, 17, 2, 0.08);
+  --shadow-md: 0 8px 24px rgba(25, 17, 2, 0.12);
+  --shadow-lg: 0 16px 40px rgba(25, 17, 2, 0.18);
+
+  --font-sans: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+  --font-display: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+
+  --transition: 0.22s cubic-bezier(0.22, 1, 0.36, 1);
+  --max-width: 1180px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-black);
+  background-color: var(--color-white);
+  line-height: 1.55;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button, input, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+main {
+  flex: 1;
+}
+
+/* =========================================================
+   NAVBAR
+   ========================================================= */
+.navbar {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 3px solid var(--color-gold);
+}
+
+.navbar__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  min-height: 68px;
+}
+
+.brand {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 900;
+  font-size: 1.15rem;
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  color: var(--color-gold);
+  user-select: none;
+}
+
+.brand__line {
+  display: block;
+}
+
+.navbar__links {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.nav-link {
+  padding: 8px 14px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-white);
+  transition: background-color var(--transition), color var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.is-active {
+  background-color: var(--color-gold);
+  color: var(--color-black);
+}
+
+.navbar__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.icon-pill-btn {
+  background: transparent;
+  color: var(--color-white);
+  border: 1.5px solid var(--color-gold);
+  border-radius: var(--radius-pill);
+  padding: 6px 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  transition: background-color var(--transition), color var(--transition), transform var(--transition);
+}
+
+.icon-pill-btn:hover {
+  background-color: var(--color-gold);
+  color: var(--color-black);
+  transform: translateY(-1px);
+}
+
+/* =========================================================
+   BUTTONS
+   ========================================================= */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 13px 26px;
+  border-radius: var(--radius-md);
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: 0.02em;
+  border: 2px solid transparent;
+  transition: transform var(--transition), box-shadow var(--transition), background-color var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btn--primary {
+  background-color: var(--color-gold);
+  color: var(--color-black);
+  border-color: var(--color-gold);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn--primary:hover {
+  background-color: var(--color-black);
+  color: var(--color-gold);
+  border-color: var(--color-black);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.btn--secondary {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-color: var(--color-black);
+}
+
+.btn--secondary:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  transform: translateY(-2px);
+}
+
+.btn--outline-light {
+  background-color: transparent;
+  color: var(--color-white);
+  border-color: var(--color-white);
+}
+
+.btn--outline-light:hover {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  transform: translateY(-2px);
+}
+
+.btn--olive {
+  background-color: var(--color-olive);
+  color: var(--color-white);
+  border-color: var(--color-olive);
+}
+
+.btn--olive:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+  transform: translateY(-2px);
+}
+
+.btn--danger {
+  background-color: var(--color-red);
+  color: var(--color-white);
+  border-color: var(--color-red);
+}
+
+.btn--danger:hover {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-color: var(--color-black);
+  transform: translateY(-2px);
+}
+
+.btn--sm {
+  padding: 8px 16px;
+  font-size: 0.88rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn--lg {
+  padding: 16px 34px;
+  font-size: 1.08rem;
+}
+
+/* =========================================================
+   CARDS & BADGES
+   ========================================================= */
+.card {
+  background-color: var(--color-white);
+  border: 2px solid var(--tint-black-10);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.badge--gold {
+  background-color: var(--color-gold);
+  color: var(--color-black);
+}
+
+.badge--olive {
+  background-color: var(--color-olive);
+  color: var(--color-white);
+}
+
+.badge--red {
+  background-color: var(--color-red);
+  color: var(--color-white);
+}
+
+.badge--black {
+  background-color: var(--color-black);
+  color: var(--color-white);
+}
+
+/* =========================================================
+   PAWN TOKEN
+   ========================================================= */
+.pawn-token {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  font-weight: 900;
+  font-size: 0.95rem;
+  border: 2.5px solid var(--color-black);
+  box-shadow: var(--shadow-sm);
+  flex-shrink: 0;
+  user-select: none;
+}
+
+.pawn-token--sm {
+  width: 26px;
+  height: 26px;
+  font-size: 0.78rem;
+  border-width: 2px;
+}
+
+/* =========================================================
+   MODALS
+   ========================================================= */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background-color: var(--tint-black-65);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 500;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition);
+}
+
+.modal-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-radius: var(--radius-lg);
+  border: 3px solid var(--color-black);
+  width: 100%;
+  max-width: 560px;
+  max-height: 92vh;
+  overflow-y: auto;
+  padding: 28px;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(16px) scale(0.97);
+  transition: transform var(--transition);
+}
+
+.modal-backdrop.is-open .modal {
+  transform: translateY(0) scale(1);
+}
+
+.modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.modal__title {
+  font-size: 1.4rem;
+  font-weight: 900;
+}
+
+.modal__actions {
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  margin-top: 22px;
+}
+
+/* =========================================================
+   TOASTS
+   ========================================================= */
+.toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 900;
+  pointer-events: none;
+}
+
+.toast {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-left: 5px solid var(--color-gold);
+  padding: 12px 18px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.92rem;
+  box-shadow: var(--shadow-md);
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+
+.toast--visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   FOOTER
+   ========================================================= */
+.footer {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  border-top: 3px solid var(--color-gold);
+  padding: 28px 0;
+  margin-top: 56px;
+}
+
+.footer__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.footer__title {
+  font-weight: 800;
+  color: var(--color-gold);
+  font-size: 1rem;
+}
+
+.footer__note {
+  font-size: 0.88rem;
+  opacity: 0.85;
+}
+
+/* =========================================================
+   UTILITY ANIMATIONS
+   ========================================================= */
+@keyframes popIn {
+  0% { opacity: 0; transform: scale(0.92); }
+  100% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes shakeX {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-7px); }
+  40% { transform: translateX(7px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+@keyframes pulseGold {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(243, 182, 31, 0.55); }
+  50% { box-shadow: 0 0 0 10px rgba(243, 182, 31, 0); }
+}
+
+.anim-pop {
+  animation: popIn 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.anim-shake {
+  animation: shakeX 0.4s ease;
+}
+
+/* =========================================================
+   PHYSICAL PLAYING CARD DESIGN (Official JOB DONE ? Look)
+   Matches reference: thick Olive (#A29F15) or Dark Red (#510D0A)
+   outer frame, white inner face, stacked gold "JOB ? / DONE"
+   ========================================================= */
+.jd-card {
+  background-color: var(--color-white);
+  border-radius: 18px;
+  border: 14px solid var(--color-olive);
+  box-shadow: var(--shadow-lg);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+  padding: 26px 24px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+}
+
+.jd-card--simple {
+  border-color: var(--color-olive);
+}
+
+.jd-card--difficile {
+  border-color: var(--color-red);
+}
+
+.jd-card__logo {
+  font-family: var(--font-display);
+  font-weight: 900;
+  color: var(--color-gold);
+  line-height: 0.92;
+  letter-spacing: -0.02em;
+  text-transform: uppercase;
+  font-size: 1.85rem;
+  user-select: none;
+  margin-bottom: 12px;
+}
+
+.jd-card__logo-line {
+  display: block;
+}
+
+.jd-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 8px;
+  width: 100%;
+}
+
+.jd-card__statement {
+  font-size: clamp(1.18rem, 2.2vw, 1.48rem);
+  font-weight: 700;
+  line-height: 1.42;
+  color: var(--color-black);
+  max-width: 34ch;
+}
+
+.jd-card__sub {
+  margin-top: 12px;
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--color-black);
+  opacity: 0.65;
+  max-width: 38ch;
+}
+
+.jd-card__footer {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--color-black);
+  opacity: 0.75;
+  padding-top: 10px;
+}
+
+/* Back of card (Carte dos) with golden "?" pattern and centered QR code */
+.jd-card--back {
+  background-color: var(--color-white);
+  justify-content: center;
+  align-items: center;
+  padding: 24px;
+}
+
+.jd-card__qmark {
+  position: absolute;
+  color: var(--color-gold);
+  font-weight: 900;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+.jd-card__qmark--main {
+  font-size: 11rem;
+  transform: rotate(22deg);
+  top: 50%;
+  left: 50%;
+  margin-top: -5.6rem;
+  margin-left: -3.2rem;
+}
+
+.jd-card__qmark--tl {
+  font-size: 3.4rem;
+  top: -8px;
+  left: 10px;
+  transform: rotate(35deg);
+}
+
+.jd-card__qmark--tr {
+  font-size: 2.8rem;
+  top: 14px;
+  right: 14px;
+  transform: rotate(-12deg);
+}
+
+.jd-card__qmark--br {
+  font-size: 3.6rem;
+  bottom: -10px;
+  right: 8px;
+  transform: rotate(-20deg);
+}
+
+.jd-card__qr-pad {
+  position: relative;
+  z-index: 2;
+  background-color: var(--color-white);
+  padding: 8px;
+  border-radius: 6px;
+  box-shadow: var(--shadow-sm);
+}
+

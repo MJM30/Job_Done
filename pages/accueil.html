@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JOB DONE ? — Accueil</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/accueil.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="brand">
+        <span class="brand__mark">JD</span>
+        <span>JOB DONE <span class="brand__accent">?</span></span>
+      </a>
+      <nav class="navbar__links" aria-label="Navigation principale">
+        <a href="accueil.html" class="nav-link is-active" data-i18n="navHome">Accueil</a>
+        <a href="regles.html" class="nav-link" data-i18n="navRules">Règles</a>
+        <a href="configuration.html" class="nav-link" data-i18n="navPlay">Jouer</a>
+        <a href="jeu.html" class="nav-link" data-requires-saved-game hidden data-i18n="navResume">Reprendre</a>
+      </nav>
+      <div class="navbar__actions">
+        <button type="button" class="icon-pill-btn" data-sound-toggle>🔊</button>
+        <button type="button" class="icon-pill-btn" data-lang-toggle>FR ▾ EN</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="saved-game-banner" data-requires-saved-game hidden>
+    <div class="container saved-game-banner__inner">
+      <span data-i18n="savedBannerText">Une partie est actuellement sauvegardée.</span>
+      <a href="jeu.html" class="btn btn--secondary btn--sm" data-i18n="btnResumeGame">REPRENDRE LA PARTIE EN COURS</a>
+    </div>
+  </div>
+
+  <main>
+    <section class="hero">
+      <div class="container hero__grid">
+        <div>
+          <span class="badge badge--gold" data-i18n="heroBadge">JEU DE SOCIÉTÉ · SOFT SKILLS AU TRAVAIL</span>
+          <h1 class="hero__title">JOB DONE <span>?</span></h1>
+          <p class="hero__catchphrase" data-i18n="heroCatchphrase">Les soft skills au travail, ça se joue !</p>
+          <p class="hero__desc" data-i18n="heroDesc">
+            Une carte, une affirmation sur la vie au travail. Réponds VRAI ou FAUX, avance ton pion sur le plateau de 10 cases et deviens le premier à atteindre 10 points !
+          </p>
+          <div class="hero__cta">
+            <a href="configuration.html" class="btn btn--primary btn--lg" data-i18n="btnPlayNow">JOUER MAINTENANT</a>
+            <a href="regles.html" class="btn btn--outline-light btn--lg" data-i18n="btnDiscoverRules">DÉCOUVRIR LES RÈGLES</a>
+          </div>
+        </div>
+
+        <div class="hero-cards-fan" aria-hidden="true">
+          <div class="jd-card jd-card--simple hero-card-front">
+            <div class="jd-card__logo">
+              <span class="jd-card__logo-line">JOB ?</span>
+              <span class="jd-card__logo-line">DONE</span>
+            </div>
+            <div class="jd-card__body">
+              <p class="jd-card__statement" id="heroSampleQuote">
+                Dire bonjour à ses collègues le matin aide à créer une bonne ambiance.
+              </p>
+            </div>
+            <div class="jd-card__footer" id="heroSampleAnswer">vrai.</div>
+          </div>
+
+          <div class="jd-card jd-card--difficile jd-card--back hero-card-back">
+            <span class="jd-card__qmark jd-card__qmark--tl">?</span>
+            <span class="jd-card__qmark jd-card__qmark--tr">?</span>
+            <span class="jd-card__qmark jd-card__qmark--main">?</span>
+            <span class="jd-card__qmark jd-card__qmark--br">?</span>
+            <div class="jd-card__qr-pad">
+              <svg width="64" height="64" viewBox="0 0 21 21" fill="#191102" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0h7v7H0V0zm1 1v5h5V1H1zm1 1h3v3H2V2zm12-2h7v7h-7V0zm1 1v5h5V1h-5zm1 1h3v3h-3V2zM0 14h7v7H0v-7zm1 1v5h5v-5H1zm1 1h3v3H2v-3zM9 0h2v2H9V0zm3 1h1v3h-1V1zM9 4h2v2H9V4zm0 4h3v2H9V8zm4 0h2v2h-2V8zm3 1h2v2h-2V9zm3 0h2v3h-2V9zM0 9h3v2H0V9zm4 0h3v3H4V9zm5 3h2v3H9v-3zm3 1h3v2h-3v-2zm4 1h2v3h-2v-3zm3 2h2v5h-2v-5zm-7 1h3v4h-3v-4zm-3 2h2v2H9v-2zm7 0h2v2h-2v-2z"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title" data-i18n="featuresTitle">Les caractéristiques du jeu</h2>
+          <div class="section__divider"></div>
+        </div>
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-card__icon">2–6</div>
+            <h3 class="feature-card__title" data-i18n="featPlayersTitle">2 à 6 joueurs</h3>
+            <p class="feature-card__desc" data-i18n="featPlayersDesc">En solo chacun pour soi ou en équipes avec un pion par équipe.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-card__icon">15'</div>
+            <h3 class="feature-card__title" data-i18n="featTimeTitle">15 minutes</h3>
+            <p class="feature-card__desc" data-i18n="featTimeDesc">Des parties rapides, dynamiques et idéales en atelier ou entre collègues.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-card__icon">60</div>
+            <h3 class="feature-card__title" data-i18n="featCardsTitle">60 cartes officielles</h3>
+            <p class="feature-card__desc" data-i18n="featCardsDesc">30 cartes Niveau 1 (Simple) et 30 cartes Niveau 2 (Difficile), en français et anglais.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-card__icon">✓/✕</div>
+            <h3 class="feature-card__title" data-i18n="featFormatTitle">Vrai ou Faux</h3>
+            <p class="feature-card__desc" data-i18n="featFormatDesc">Des affirmations concrètes sur la vie au travail pour débattre et progresser.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section__header">
+          <h2 class="section__title" data-i18n="levelsTitle">Deux niveaux de difficulté</h2>
+          <div class="section__divider"></div>
+        </div>
+        <div class="levels-grid">
+          <article class="level-card level-card--simple">
+            <div><span class="badge badge--olive" data-i18n="level1Badge">NIVEAU 1 · SIMPLE</span></div>
+            <h3 class="level-card__title" data-i18n="level1Title">Idéal pour démarrer</h3>
+            <ul class="level-card__rules">
+              <li data-i18n="level1Cards">30 cartes officielles</li>
+              <li data-i18n="level1Good">Bonne réponse : +1 point</li>
+              <li data-i18n="level1Bad">Mauvaise réponse : 0 point</li>
+            </ul>
+            <p data-i18n="level1Desc">Des situations du quotidien professionnel pour poser les bases des soft skills sans pénalité.</p>
+          </article>
+
+          <article class="level-card level-card--hard">
+            <div><span class="badge badge--red" data-i18n="level2Badge">NIVEAU 2 · DIFFICILE</span></div>
+            <h3 class="level-card__title" data-i18n="level2Title">Pour aller plus loin</h3>
+            <ul class="level-card__rules">
+              <li data-i18n="level2Cards">30 cartes officielles</li>
+              <li data-i18n="level2Good">Bonne réponse : +1 point</li>
+              <li data-i18n="level2Bad">Mauvaise réponse : −1 point</li>
+            </ul>
+            <p data-i18n="level2Desc">Des situations plus nuancées où chaque erreur fait reculer votre pion d'une case (sans jamais descendre sous 0).</p>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__title" data-i18n="footerTagline">JOB DONE ? — Les soft skills au travail, ça se joue !</div>
+      <div class="footer__note" data-i18n="footerNote">Jeu de société numérique · 60 cartes officielles · 2 à 6 joueurs</div>
+    </div>
+  </footer>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    (function () {
+      function updateSampleQuote(lang) {
+        var el = document.getElementById("heroSampleQuote");
+        if (!el) return;
+        el.textContent = lang === "en"
+          ? "\"Saying hello to your colleagues in the morning helps create a good atmosphere.\""
+          : "« Dire bonjour à ses collègues le matin aide à créer une bonne ambiance. »";
+      }
+      JobDone.App.initSharedUI(updateSampleQuote);
+      updateSampleQuote(JobDone.App.getLang());
+    })();
+  </script>
+</body>
+</html>

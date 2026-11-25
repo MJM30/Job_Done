@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JOB DONE ? — Règles du jeu</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/accueil.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="brand" aria-label="JOB DONE ?">
+        <span class="brand__line">JOB ?</span>
+        <span class="brand__line">DONE</span>
+      </a>
+      <nav class="navbar__links" aria-label="Navigation principale">
+        <a href="../index.html" class="nav-link" data-i18n="navHome">Les 60 cartes</a>
+        <a href="qrcodes.html" class="nav-link">QR Codes (60)</a>
+        <a href="regles.html" class="nav-link is-active" data-i18n="navRules">Règles</a>
+      </nav>
+      <div class="navbar__actions">
+        <button type="button" class="icon-pill-btn" data-lang-toggle>FR ▾ EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <h1 class="page-hero__title" data-i18n="rulesTitle">Règles officielles du jeu</h1>
+        <p class="page-hero__sub" data-i18n="rulesSubtitle">Tout ce qu'il faut savoir pour jouer à JOB DONE ?</p>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="rules-grid">
+        <article class="card rules-card">
+          <h2 data-i18n="rulesGoalTitle">Le but du jeu</h2>
+          <p data-i18n="rulesGoalText">
+            Une carte, une affirmation sur la vie au travail. Tu réponds vrai ou faux. Chaque bonne réponse fait avancer ton pion d'une case. Le premier à 10 points gagne !
+          </p>
+        </article>
+
+        <article class="card rules-card">
+          <h2 data-i18n="rulesMaterialTitle">Le matériel</h2>
+          <ul class="rules-list">
+            <li data-i18n="rulesMat1">30 cartes niveau 1 (simple)</li>
+            <li data-i18n="rulesMat2">30 cartes niveau 2 (difficile)</li>
+            <li data-i18n="rulesMat3">1 petit plateau de 10 cases (Départ à Arrivée)</li>
+            <li data-i18n="rulesMat4">1 pion par joueur (ou par équipe)</li>
+          </ul>
+        </article>
+
+        <article class="card rules-card">
+          <h2 data-i18n="rulesHowTitle">Comment jouer</h2>
+          <ol class="rules-list">
+            <li data-i18n="rulesStep1">Chaque joueur pose son pion sur la case Départ (0 point).</li>
+            <li data-i18n="rulesStep2">Choisissez le niveau : simple, difficile ou mixte.</li>
+            <li data-i18n="rulesStep3">À ton tour, ton voisin pioche une carte et te lit l'affirmation à voix haute.</li>
+            <li data-i18n="rulesStep4">Tu réponds : VRAI ou FAUX.</li>
+            <li data-i18n="rulesStep5">On vérifie la réponse, on bouge le pion, puis c'est au joueur suivant.</li>
+          </ol>
+        </article>
+
+        <article class="card rules-card">
+          <h2 data-i18n="rulesPointsTitle">Système de points</h2>
+          <div class="rules-points-grid">
+            <div class="rules-point-box">
+              <strong data-i18n="level1Badge">NIVEAU 1 · SIMPLE</strong>
+              <p data-i18n="level1Good">Bonne réponse : +1 point</p>
+              <p data-i18n="level1Bad">Mauvaise réponse : 0 point</p>
+            </div>
+            <div class="rules-point-box rules-point-box--hard">
+              <strong data-i18n="level2Badge">NIVEAU 2 · DIFFICILE</strong>
+              <p data-i18n="level2Good">Bonne réponse : +1 point</p>
+              <p data-i18n="level2Bad">Mauvaise réponse : −1 point</p>
+            </div>
+          </div>
+          <p><strong data-i18n="rulesPointsRule">1 point = 1 case : on avance (ou on recule) son pion. On ne recule jamais avant la case Départ (0 point).</strong></p>
+        </article>
+
+        <article class="card rules-card">
+          <h2 data-i18n="rulesTeamTitle">Seul ou en équipe ?</h2>
+          <p data-i18n="rulesTeamText">
+            Pas besoin d'équipe : chacun joue pour soi. Si vous préférez, vous pouvez aussi jouer en équipes, avec un pion par équipe.
+          </p>
+        </article>
+
+        <article class="card rules-card">
+          <h2 data-i18n="rulesQrTitle">Le QR code &amp; les explications</h2>
+          <p data-i18n="rulesQrText">
+            Derrière chaque carte physique se trouve un QR code pour découvrir l'explication de la réponse. Dans cette version numérique, une fenêtre d'explication s'affiche après chaque réponse et vous permet même d'ajouter ou d'éditer vos propres notes pédagogiques.
+          </p>
+        </article>
+      </div>
+
+      <div class="rules-win-banner" data-i18n="rulesWinBanner">
+        LE PREMIER JOUEUR À 10 POINTS GAGNE LA PARTIE !
+      </div>
+
+      <div style="text-align: center; margin-top: 28px;">
+        <a href="../index.html" class="btn btn--primary btn--lg">VOIR LES 60 CARTES &amp; EXPLICATIONS</a>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__title" data-i18n="footerTagline">JOB DONE ? — Les soft skills au travail, ça se joue !</div>
+      <div class="footer__note" data-i18n="footerNote">Jeu de société numérique · 60 cartes officielles · 2 à 6 joueurs</div>
+    </div>
+  </footer>
+
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    JobDone.App.initSharedUI();
+  </script>
+</body>
+</html>

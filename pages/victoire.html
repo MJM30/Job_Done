@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JOB DONE ? — Victoire !</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/jeu.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="brand">
+        <span class="brand__mark">JD</span>
+        <span>JOB DONE <span class="brand__accent">?</span></span>
+      </a>
+      <nav class="navbar__links" aria-label="Navigation principale">
+        <a href="../index.html" class="nav-link" data-i18n="navHome">Accueil</a>
+        <a href="regles.html" class="nav-link" data-i18n="navRules">Règles</a>
+        <a href="configuration.html" class="nav-link" data-i18n="navPlay">Jouer</a>
+      </nav>
+      <div class="navbar__actions">
+        <button type="button" class="icon-pill-btn" data-sound-toggle>🔊</button>
+        <button type="button" class="icon-pill-btn" data-lang-toggle>FR ▾ EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="victory-hero" id="victoryHero">
+      <div class="container">
+        <div class="victory-trophy" aria-hidden="true">🏆</div>
+        <h1 class="victory-title" data-i18n="victoryTitle">BRAVO, TU AS GAGNÉ !</h1>
+        <p class="victory-winner-name" id="winnerHeadline"></p>
+        <div class="victory-score-pill" id="winnerScorePill">10 / 10</div>
+      </div>
+    </section>
+
+    <section class="container victory-content">
+      <div class="card">
+        <h2 style="font-size:1.3rem;font-weight:900;margin-bottom:16px;" data-i18n="victoryLeaderboard">Classement final</h2>
+        <div class="leaderboard-list" id="finalLeaderboard"></div>
+      </div>
+
+      <div class="victory-actions">
+        <button type="button" class="btn btn--primary btn--lg" id="replayBtn" data-i18n="btnReplay">REJOUER</button>
+        <a href="../index.html" class="btn btn--secondary btn--lg" data-i18n="btnBackHome">RETOUR À L'ACCUEIL</a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__title" data-i18n="footerTagline">JOB DONE ? — Les soft skills au travail, ça se joue !</div>
+      <div class="footer__note" data-i18n="footerNote">Jeu de société numérique · 60 cartes officielles · 2 à 6 joueurs</div>
+    </div>
+  </footer>
+
+  <script src="../js/questions.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/players.js"></script>
+  <script src="../js/scoring.js"></script>
+  <script src="../js/game.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    (function () {
+      const App = JobDone.App;
+      const Storage = JobDone.Storage;
+      const Players = JobDone.Players;
+      const Game = JobDone.Game;
+
+      const state = Storage.loadGameState();
+      if (!state || !Array.isArray(state.players) || state.players.length < 2) {
+        window.location.href = "../index.html";
+        return;
+      }
+
+      // Spawn celebration confetti strictly using the 5 authorized colors
+      function spawnConfetti() {
+        const hero = document.getElementById("victoryHero");
+        const colors = ["#F3B61F", "#A29F15", "#FFFFFF", "#510D0A"];
+        for (let i = 0; i < 36; i++) {
+          const piece = document.createElement("span");
+          piece.className = "confetti-piece";
+          piece.style.left = `${Math.random() * 100}%`;
+          piece.style.backgroundColor = colors[i % colors.length];
+          piece.style.animationDuration = `${2.2 + Math.random() * 2.4}s`;
+          piece.style.animationDelay = `${Math.random() * 1.5}s`;
+          hero.appendChild(piece);
+        }
+      }
+
+      function renderVictory() {
+        const ranked = Players.getRankings(state.players);
+        const winner = state.players.find((p) => p.id === state.winnerId) || ranked[0];
+
+        document.getElementById("winnerHeadline").textContent =
+          `${winner.name} ${App.t("victorySubtitle")}`;
+        document.getElementById("winnerScorePill").textContent =
+          `${App.t("victoryFinalScore")} : ${winner.score} / 10 ${App.t("pointsShort")}`;
+
+        // Detect ties per rank
+        const rankCounts = {};
+        ranked.forEach((p) => { rankCounts[p.rank] = (rankCounts[p.rank] || 0) + 1; });
+
+        const list = document.getElementById("finalLeaderboard");
+        list.innerHTML = "";
+
+        ranked.forEach((p) => {
+          const isTied = rankCounts[p.rank] > 1;
+          const item = document.createElement("div");
+          item.className = "leaderboard-item" + (p.id === winner.id ? " is-active" : "");
+          item.innerHTML = `
+            <div class="leaderboard-item__left">
+              <span class="leaderboard-rank">#${p.rank}${isTied ? ` (${App.t("rankTieLabel")})` : ""}</span>
+              <span class="pawn-token pawn-token--sm" style="background:${p.token.bg};color:${p.token.text};border-color:${p.token.border};">${p.token.symbol}</span>
+              <div>
+                <div class="leaderboard-name">${App.escapeHtml(p.name)}</div>
+                <div style="font-size:0.8rem;opacity:0.75;">
+                  ${App.t("victoryStatsAccuracy")} : ${p.correctCount} / ${p.turnsPlayed}
+                </div>
+              </div>
+            </div>
+            <span class="leaderboard-score">${p.score} / 10</span>
+          `;
+          list.appendChild(item);
+        });
+      }
+
+      document.getElementById("replayBtn").addEventListener("click", () => {
+        Game.restartSameGame(state);
+        window.location.href = "jeu.html";
+      });
+
+      App.initSharedUI(renderVictory);
+      renderVictory();
+      spawnConfetti();
+      App.Sound.play("victory");
+    })();
+  </script>
+</body>
+</html>

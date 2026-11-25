@@ -1,0 +1,274 @@
+/* =========================================================
+   JOB DONE ? — QR Code Card Lookup & Explanation Styles
+   ========================================================= */
+
+.lookup-hero {
+  background-color: var(--color-black);
+  color: var(--color-white);
+  padding: 40px 0 36px;
+  border-bottom: 4px solid var(--color-gold);
+  text-align: center;
+}
+
+.lookup-hero__title {
+  font-size: clamp(1.8rem, 3.8vw, 2.7rem);
+  font-weight: 900;
+  margin: 10px 0 8px;
+}
+
+.lookup-hero__title span {
+  color: var(--color-gold);
+}
+
+.lookup-hero__sub {
+  max-width: 640px;
+  margin: 0 auto 24px;
+  font-size: 1rem;
+  opacity: 0.9;
+}
+
+.lookup-controls {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 14px 18px;
+  border-radius: var(--radius-md);
+  border: 2.5px solid var(--color-gold);
+  background-color: var(--color-white);
+  color: var(--color-black);
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.search-input:focus {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--tint-gold-25);
+}
+
+.filter-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  padding: 9px 18px;
+  border-radius: var(--radius-pill);
+  border: 2px solid var(--color-gold);
+  background-color: transparent;
+  color: var(--color-white);
+  font-weight: 800;
+  font-size: 0.9rem;
+  transition: all var(--transition);
+}
+
+.filter-tab:hover,
+.filter-tab.is-active {
+  background-color: var(--color-gold);
+  color: var(--color-black);
+}
+
+.filter-tab--simple.is-active {
+  background-color: var(--color-olive);
+  border-color: var(--color-olive);
+  color: var(--color-white);
+}
+
+.filter-tab--difficile.is-active {
+  background-color: var(--color-red);
+  border-color: var(--color-red);
+  color: var(--color-white);
+}
+
+/* CARDS CATALOG GRID */
+.catalog-section {
+  padding: 36px 0 24px;
+}
+
+.catalog-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(230px, 1fr));
+  gap: 22px;
+}
+
+.catalog-card-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  text-align: left;
+  width: 100%;
+  display: flex;
+}
+
+.catalog-card {
+  width: 100%;
+  min-height: 295px;
+  border-width: 10px;
+  padding: 18px 16px 14px;
+  cursor: pointer;
+}
+
+.catalog-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+}
+
+.catalog-card .jd-card__logo {
+  font-size: 1.35rem;
+  margin-bottom: 6px;
+}
+
+.catalog-card .jd-card__statement {
+  font-size: 0.96rem;
+  line-height: 1.38;
+}
+
+.catalog-card__num {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-size: 0.74rem;
+  font-weight: 900;
+  color: var(--color-black);
+  opacity: 0.55;
+}
+
+/* =========================================================
+   SINGLE CARD DETAIL VIEW (QR CODE LANDING VIEW)
+   ========================================================= */
+.detail-view {
+  padding: 36px 0 48px;
+}
+
+.detail-topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 28px;
+}
+
+.detail-grid {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 32px;
+  align-items: start;
+}
+
+.detail-card-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.detail-card {
+  width: 100%;
+  min-height: 440px;
+}
+
+.detail-explanation-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.answer-verdict {
+  border-radius: var(--radius-lg);
+  padding: 22px 24px;
+  color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  box-shadow: var(--shadow-md);
+}
+
+.answer-verdict--true {
+  background-color: var(--color-olive);
+  border: 3px solid var(--color-black);
+}
+
+.answer-verdict--false {
+  background-color: var(--color-red);
+  border: 3px solid var(--color-black);
+}
+
+.answer-verdict__label {
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+
+.answer-verdict__value {
+  font-size: 2rem;
+  font-weight: 900;
+  letter-spacing: 0.05em;
+  line-height: 1.1;
+}
+
+.why-box {
+  background-color: var(--color-white);
+  border: 2.5px solid var(--color-black);
+  border-left: 8px solid var(--color-gold);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  box-shadow: var(--shadow-sm);
+}
+
+.why-box__title {
+  font-size: 1.15rem;
+  font-weight: 900;
+  margin-bottom: 10px;
+  color: var(--color-black);
+}
+
+.why-box__text {
+  font-size: 1.06rem;
+  line-height: 1.6;
+  color: var(--color-black);
+}
+
+.points-reminder {
+  background-color: var(--tint-black-05);
+  border: 2px solid var(--tint-black-10);
+  border-radius: var(--radius-md);
+  padding: 16px 20px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.detail-nav-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+@media (max-width: 860px) {
+  .detail-grid {
+    grid-template-columns: 1fr;
+  }
+  .detail-card {
+    max-width: 360px;
+    min-height: 380px;
+  }
+}

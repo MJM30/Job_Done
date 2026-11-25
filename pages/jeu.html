@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JOB DONE ? — Partie en cours</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/jeu.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="brand">
+        <span class="brand__mark">JD</span>
+        <span>JOB DONE <span class="brand__accent">?</span></span>
+      </a>
+      <div class="navbar__actions">
+        <button type="button" class="icon-pill-btn" id="pauseBtn" data-i18n="btnPause">Pause</button>
+        <button type="button" class="icon-pill-btn" id="restartBtn" data-i18n="btnRestart">Recommencer</button>
+        <button type="button" class="icon-pill-btn" id="abandonBtn" data-i18n="btnAbandon">Abandonner</button>
+        <button type="button" class="icon-pill-btn" data-sound-toggle>🔊</button>
+        <button type="button" class="icon-pill-btn" data-lang-toggle>FR ▾ EN</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- GAME META TOPBAR -->
+  <div class="game-topbar">
+    <div class="container game-topbar__inner">
+      <div class="game-meta">
+        <span class="game-meta__pill"><span data-i18n="turnLabel">Tour</span> <strong id="turnNumDisplay">1</strong></span>
+        <span class="badge badge--gold" id="difficultyBadge">NIVEAU 1 · SIMPLE</span>
+        <span class="game-meta__pill"><strong id="remainingCardsDisplay">30</strong> <span data-i18n="remainingCards">cartes restantes</span></span>
+      </div>
+      <div class="game-controls">
+        <span class="game-meta__pill" id="activeScorePill">Score : 0 / 10</span>
+      </div>
+    </div>
+  </div>
+
+  <main>
+    <!-- 10-SPACE BOARD -->
+    <section class="board-section">
+      <div class="container">
+        <div class="board-wrapper">
+          <div class="board-track" id="boardTrack" aria-label="Plateau de jeu de 10 cases"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MAIN GAMEPLAY AREA -->
+    <section class="container game-main-grid">
+      <!-- LEFT: ACTIVE TURN + CARD -->
+      <div>
+        <div class="active-turn-banner" id="activeTurnBanner">
+          <div class="active-turn-banner__player">
+            <span class="pawn-token" id="activePawn">★</span>
+            <div>
+              <div class="active-turn-banner__label" data-i18n="activeTurnLabel">C'est au tour de</div>
+              <div class="active-turn-banner__name" id="activePlayerName">Joueur 1</div>
+            </div>
+          </div>
+          <div class="active-turn-banner__reader" id="readerHintDisplay"></div>
+        </div>
+
+        <div class="card-stage">
+          <div class="card-stage__meta">
+            <span class="badge badge--olive" id="cardLevelBadge">NIVEAU 1 · SIMPLE</span>
+            <span class="question-card__number" id="cardNumberBadge">CARTE #01</span>
+          </div>
+
+          <article class="jd-card jd-card--simple question-card anim-pop" id="questionCard">
+            <div class="jd-card__logo" aria-hidden="true">
+              <span class="jd-card__logo-line">JOB ?</span>
+              <span class="jd-card__logo-line">DONE</span>
+            </div>
+
+            <div class="jd-card__body">
+              <div class="jd-card__statement" id="cardStatement"></div>
+              <div class="jd-card__sub" id="cardSubTranslation"></div>
+            </div>
+
+            <div class="jd-card__footer" id="cardFooterLabel">vrai / faux</div>
+          </article>
+
+          <div class="answer-buttons">
+            <button type="button" class="answer-btn answer-btn--true" id="btnTrue">
+              <span>✓</span> <span data-i18n="btnTrue">VRAI</span>
+            </button>
+            <button type="button" class="answer-btn answer-btn--false" id="btnFalse">
+              <span>✕</span> <span data-i18n="btnFalse">FAUX</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT: LEADERBOARD & TURN HISTORY -->
+      <aside class="sidebar-stack">
+        <section class="card">
+          <h2 style="font-size:1.1rem;font-weight:900;" data-i18n="leaderboardTitle">Classement en direct</h2>
+          <div class="leaderboard-list" id="leaderboardList"></div>
+        </section>
+
+        <section class="card">
+          <h2 style="font-size:1.1rem;font-weight:900;" data-i18n="historyTitle">Historique des tours</h2>
+          <div class="history-list" id="historyList"></div>
+        </section>
+      </aside>
+    </section>
+  </main>
+
+  <!-- EXPLANATION / CORRECTION MODAL -->
+  <div class="modal-backdrop" id="feedbackModal" role="dialog" aria-modal="true" aria-labelledby="feedbackBanner">
+    <div class="modal">
+      <div class="feedback-banner" id="feedbackBanner">BONNE RÉPONSE !</div>
+      <div class="feedback-statement" id="feedbackStatement"></div>
+
+      <div class="feedback-meta-grid">
+        <div class="feedback-meta-box">
+          <div class="feedback-meta-box__label" data-i18n="yourAnswerLabel">Réponse donnée</div>
+          <div class="feedback-meta-box__val" id="feedbackGiven">—</div>
+        </div>
+        <div class="feedback-meta-box">
+          <div class="feedback-meta-box__label" data-i18n="officialAnswerLabel">Réponse officielle</div>
+          <div class="feedback-meta-box__val" id="feedbackOfficial">—</div>
+        </div>
+        <div class="feedback-meta-box">
+          <div class="feedback-meta-box__label" data-i18n="pointsImpactLabel">Impact sur le score</div>
+          <div class="feedback-meta-box__val" id="feedbackDelta">+1</div>
+        </div>
+      </div>
+
+      <p id="feedbackFloorNotice" style="font-size:0.84rem;font-weight:700;color:var(--color-red);margin-bottom:14px;" hidden data-i18n="floorNotice"></p>
+
+      <!-- Pedagogical Explanation (Back QR Code) -->
+      <div class="explanation-box">
+        <div class="explanation-box__head">
+          <span>📱 <span data-i18n="explanationHeading">Explication pédagogique (QR Code verso)</span></span>
+          <button type="button" class="btn btn--secondary btn--sm" id="toggleEditExpBtn" data-i18n="explanationEditBtn">Ajouter / Modifier l'explication</button>
+        </div>
+        <p id="explanationDisplay" style="font-size:0.92rem;"></p>
+        <div id="explanationEditor" hidden>
+          <textarea class="explanation-textarea" id="explanationTextarea"></textarea>
+          <div style="margin-top:8px;display:flex;justify-content:flex-end;">
+            <button type="button" class="btn btn--olive btn--sm" id="saveExpBtn" data-i18n="explanationSaveBtn">Enregistrer</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal__actions">
+        <button type="button" class="btn btn--primary btn--lg" id="nextTurnBtn" data-i18n="btnNextPlayer">JOUEUR SUIVANT →</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAUSE MODAL -->
+  <div class="modal-backdrop" id="pauseModal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" data-i18n="pauseTitle">Partie en pause</h2>
+      </div>
+      <p data-i18n="pauseDesc">Votre progression est automatiquement sauvegardée. Vous pouvez reprendre à tout moment.</p>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--primary" id="resumeBtn" data-i18n="btnResume">REPRENDRE LA PARTIE</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABANDON CONFIRMATION MODAL -->
+  <div class="modal-backdrop" id="abandonModal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" data-i18n="abandonTitle">Abandonner la partie ?</h2>
+      </div>
+      <p data-i18n="abandonDesc">Si vous abandonnez maintenant, la partie en cours sera effacée.</p>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--secondary" id="cancelAbandonBtn" data-i18n="btnCancel">ANNULER</button>
+        <button type="button" class="btn btn--danger" id="confirmAbandonBtn" data-i18n="btnConfirmAbandon">OUI, ABANDONNER</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- RESTART CONFIRMATION MODAL -->
+  <div class="modal-backdrop" id="restartModal" role="dialog" aria-modal="true">
+    <div class="modal">
+      <div class="modal__header">
+        <h2 class="modal__title" data-i18n="restartTitle">Recommencer la partie ?</h2>
+      </div>
+      <p data-i18n="restartDesc">Tous les scores seront remis à 0 et un nouveau paquet sera mélangé.</p>
+      <div class="modal__actions">
+        <button type="button" class="btn btn--secondary" id="cancelRestartBtn" data-i18n="btnCancel">ANNULER</button>
+        <button type="button" class="btn btn--primary" id="confirmRestartBtn" data-i18n="btnConfirmRestart">OUI, RECOMMENCER</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/questions.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/players.js"></script>
+  <script src="../js/scoring.js"></script>
+  <script src="../js/game.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    (function () {
+      const App = JobDone.App;
+      const Storage = JobDone.Storage;
+      const Players = JobDone.Players;
+      const Game = JobDone.Game;
+
+      let state = Storage.loadGameState();
+      if (!state || !Array.isArray(state.players) || state.players.length < 2) {
+        window.location.href = "configuration.html";
+        return;
+      }
+      if (state.status === "finished") {
+        window.location.href = "victoire.html";
+        return;
+      }
+
+      let awaitingNext = false;
+      let lastOutcome = null;
+
+      const feedbackModal = document.getElementById("feedbackModal");
+      const pauseModal = document.getElementById("pauseModal");
+      const abandonModal = document.getElementById("abandonModal");
+      const restartModal = document.getElementById("restartModal");
+
+      function openModal(el) { el.classList.add("is-open"); }
+      function closeModal(el) { el.classList.remove("is-open"); }
+
+      function renderBoard() {
+        const track = document.getElementById("boardTrack");
+        track.innerHTML = "";
+        const activePlayer = state.players[state.activePlayerIndex];
+
+        for (let pos = 0; pos <= 10; pos++) {
+          const cell = document.createElement("div");
+          cell.className = "board-cell";
+          if (pos === 0) cell.classList.add("board-cell--start");
+          if (pos === 10) cell.classList.add("board-cell--finish");
+
+          const playersHere = state.players.filter((p) => p.score === pos);
+          if (playersHere.some((p) => p.id === activePlayer.id)) {
+            cell.classList.add("board-cell--has-active");
+          }
+
+          let label = String(pos);
+          if (pos === 0) label = `${App.t("boardStart")} (0)`;
+          if (pos === 10) label = `★ ${App.t("boardFinish")} (10)`;
+
+          const pawnsHtml = playersHere.map((p) => {
+            const isAct = p.id === activePlayer.id;
+            return `<span
+              class="pawn-token pawn-token--sm board-pawn ${isAct ? "board-pawn--active" : ""}"
+              style="background:${p.token.bg};color:${p.token.text};border-color:${p.token.border};"
+              title="${App.escapeHtml(p.name)} (${p.score} ${App.t("pointsShort")})"
+            >${p.token.symbol}</span>`;
+          }).join("");
+
+          cell.innerHTML = `
+            <div class="board-cell__num">${label}</div>
+            <div class="board-cell__pawns">${pawnsHtml}</div>
+          `;
+          track.appendChild(cell);
+        }
+      }
+
+      function renderLeaderboard() {
+        const list = document.getElementById("leaderboardList");
+        const ranked = Players.getRankings(state.players);
+        const activePlayer = state.players[state.activePlayerIndex];
+        list.innerHTML = "";
+
+        ranked.forEach((p) => {
+          const item = document.createElement("div");
+          item.className = "leaderboard-item" + (p.id === activePlayer.id ? " is-active" : "");
+          item.innerHTML = `
+            <div class="leaderboard-item__left">
+              <span class="leaderboard-rank">#${p.rank}</span>
+              <span class="pawn-token pawn-token--sm" style="background:${p.token.bg};color:${p.token.text};border-color:${p.token.border};">${p.token.symbol}</span>
+              <span class="leaderboard-name">${App.escapeHtml(p.name)}</span>
+            </div>
+            <span class="leaderboard-score">${p.score} / 10</span>
+          `;
+          list.appendChild(item);
+        });
+      }
+
+      function renderHistory() {
+        const list = document.getElementById("historyList");
+        if (!state.history || state.history.length === 0) {
+          list.innerHTML = `<p style="font-size:0.88rem;opacity:0.7;">${App.escapeHtml(App.t("historyEmpty"))}</p>`;
+          return;
+        }
+        list.innerHTML = state.history.slice(0, 20).map((h) => {
+          const deltaStr = h.delta > 0 ? `+${h.delta}` : String(h.delta);
+          return `
+            <div class="history-item ${h.isCorrect ? "" : "history-item--wrong"}">
+              <div>
+                <strong>#${h.turn} ${App.escapeHtml(h.playerName)}</strong>
+                <span style="opacity:0.75;">· ${App.t("cardPrefix")} #${String(h.cardNumber).padStart(2, "0")}</span>
+              </div>
+              <strong>${deltaStr} (${h.newScore} ${App.t("pointsShort")})</strong>
+            </div>
+          `;
+        }).join("");
+      }
+
+      function renderActiveCard() {
+        const lang = App.getLang();
+        const otherLang = lang === "fr" ? "en" : "fr";
+        const activePlayer = state.players[state.activePlayerIndex];
+        const reader = Players.getReaderPlayer(state.players, state.activePlayerIndex);
+        const card = Game.getCurrentCard(state);
+
+        document.getElementById("turnNumDisplay").textContent = String(state.turnNumber);
+        document.getElementById("remainingCardsDisplay").textContent = String(Game.getRemainingCardsCount(state));
+        document.getElementById("activeScorePill").textContent = `${App.t("scoreLabel")} : ${activePlayer.score} / 10`;
+
+        const diffBadge = document.getElementById("difficultyBadge");
+        diffBadge.textContent = App.t(
+          state.difficulty === "simple" ? "levelSimpleBadge" :
+          state.difficulty === "difficile" ? "levelHardBadge" : "levelMixedBadge"
+        );
+
+        const pawnEl = document.getElementById("activePawn");
+        pawnEl.textContent = activePlayer.token.symbol;
+        pawnEl.style.background = activePlayer.token.bg;
+        pawnEl.style.color = activePlayer.token.text;
+        pawnEl.style.borderColor = activePlayer.token.border;
+
+        document.getElementById("activePlayerName").textContent = activePlayer.name;
+        document.getElementById("readerHintDisplay").textContent = reader
+          ? `📖 ${reader.name} ${App.t("readerHint")}`
+          : "";
+
+        if (card) {
+          const cardEl = document.getElementById("questionCard");
+          cardEl.classList.remove("jd-card--simple", "jd-card--difficile", "anim-pop");
+          void cardEl.offsetWidth;
+          cardEl.classList.add(card.level === "simple" ? "jd-card--simple" : "jd-card--difficile", "anim-pop");
+
+          const levelBadge = document.getElementById("cardLevelBadge");
+          levelBadge.className = "badge " + (card.level === "simple" ? "badge--olive" : "badge--red");
+          levelBadge.textContent = App.t(card.level === "simple" ? "levelSimpleBadge" : "levelHardBadge");
+
+          document.getElementById("cardNumberBadge").textContent = `${App.t("cardPrefix")} #${String(card.number).padStart(2, "0")}`;
+          document.getElementById("cardStatement").textContent = card.question[lang];
+          document.getElementById("cardSubTranslation").textContent = card.question[otherLang];
+          document.getElementById("cardFooterLabel").textContent = lang === "en" ? "true / false." : "vrai / faux.";
+        }
+
+        document.getElementById("btnTrue").disabled = awaitingNext;
+        document.getElementById("btnFalse").disabled = awaitingNext;
+      }
+
+      function renderAll() {
+        renderBoard();
+        renderLeaderboard();
+        renderHistory();
+        renderActiveCard();
+      }
+
+      function showFeedbackModal(outcome) {
+        const lang = App.getLang();
+        const { result, card, historyEntry } = outcome;
+
+        const banner = document.getElementById("feedbackBanner");
+        banner.className = "feedback-banner " + (result.isCorrect ? "feedback-banner--correct anim-pop" : "feedback-banner--wrong anim-shake");
+        banner.textContent = App.t(result.isCorrect ? "correctTitle" : "wrongTitle");
+
+        document.getElementById("feedbackStatement").textContent = card.question[lang];
+        document.getElementById("feedbackGiven").textContent = App.t(historyEntry.givenAnswer ? "btnTrue" : "btnFalse");
+        document.getElementById("feedbackOfficial").textContent = App.t(card.answer ? "btnTrue" : "btnFalse");
+
+        const deltaStr = result.actualDelta > 0 ? `+${result.actualDelta} pt` : `${result.actualDelta} pt`;
+        document.getElementById("feedbackDelta").textContent = deltaStr;
+
+        const floorEl = document.getElementById("feedbackFloorNotice");
+        floorEl.hidden = !(result.rawDelta < 0 && result.actualDelta === 0);
+
+        // Explanation (stored in localStorage or card object)
+        const savedExp = Storage.getCardExplanation(card.id, lang) || (card.explanation && card.explanation[lang]) || "";
+        const expDisplay = document.getElementById("explanationDisplay");
+        const expEditor = document.getElementById("explanationEditor");
+        const expTextarea = document.getElementById("explanationTextarea");
+
+        expEditor.hidden = true;
+        expTextarea.value = savedExp;
+        expDisplay.textContent = savedExp || App.t("explanationEmptyPlaceholder");
+
+        const nextBtn = document.getElementById("nextTurnBtn");
+        nextBtn.textContent = App.t(result.hasWon ? "btnSeeVictory" : "btnNextPlayer");
+
+        openModal(feedbackModal);
+      }
+
+      function handleAnswer(givenAnswer) {
+        if (awaitingNext) return;
+        awaitingNext = true;
+
+        lastOutcome = Game.submitAnswer(state, givenAnswer);
+        if (!lastOutcome) return;
+
+        App.Sound.play(lastOutcome.result.isCorrect ? "correct" : "wrong");
+        renderBoard();
+        renderLeaderboard();
+        renderHistory();
+        document.getElementById("btnTrue").disabled = true;
+        document.getElementById("btnFalse").disabled = true;
+
+        showFeedbackModal(lastOutcome);
+      }
+
+      document.getElementById("btnTrue").addEventListener("click", () => handleAnswer(true));
+      document.getElementById("btnFalse").addEventListener("click", () => handleAnswer(false));
+
+      // Explanation editor
+      document.getElementById("toggleEditExpBtn").addEventListener("click", () => {
+        const editor = document.getElementById("explanationEditor");
+        editor.hidden = !editor.hidden;
+        if (!editor.hidden) {
+          document.getElementById("explanationTextarea").focus();
+        }
+      });
+
+      document.getElementById("saveExpBtn").addEventListener("click", () => {
+        if (!lastOutcome) return;
+        const lang = App.getLang();
+        const text = document.getElementById("explanationTextarea").value;
+        Storage.setCardExplanation(lastOutcome.card.id, lang, text);
+        document.getElementById("explanationDisplay").textContent = text.trim() || App.t("explanationEmptyPlaceholder");
+        document.getElementById("explanationEditor").hidden = true;
+        App.showToast(App.t("explanationSavedToast"));
+      });
+
+      // Next turn / Victory
+      document.getElementById("nextTurnBtn").addEventListener("click", () => {
+        closeModal(feedbackModal);
+        if (state.status === "finished") {
+          window.location.href = "victoire.html";
+          return;
+        }
+        const turnInfo = Game.advanceTurn(state);
+        awaitingNext = false;
+        lastOutcome = null;
+        renderAll();
+
+        if (turnInfo.reshuffled) {
+          App.showToast(App.t("reshuffleToast"), 4000);
+        } else if (turnInfo.activePlayer) {
+          App.showToast(`${App.t("transitionPrefix")} ${turnInfo.activePlayer.name}`, 2000);
+        }
+      });
+
+      // Pause / Resume
+      document.getElementById("pauseBtn").addEventListener("click", () => openModal(pauseModal));
+      document.getElementById("resumeBtn").addEventListener("click", () => closeModal(pauseModal));
+
+      // Abandon
+      document.getElementById("abandonBtn").addEventListener("click", () => openModal(abandonModal));
+      document.getElementById("cancelAbandonBtn").addEventListener("click", () => closeModal(abandonModal));
+      document.getElementById("confirmAbandonBtn").addEventListener("click", () => {
+        Storage.clearGameState();
+        window.location.href = "../index.html";
+      });
+
+      // Restart
+      document.getElementById("restartBtn").addEventListener("click", () => openModal(restartModal));
+      document.getElementById("cancelRestartBtn").addEventListener("click", () => closeModal(restartModal));
+      document.getElementById("confirmRestartBtn").addEventListener("click", () => {
+        state = Game.restartSameGame(state);
+        awaitingNext = false;
+        lastOutcome = null;
+        closeModal(restartModal);
+        renderAll();
+      });
+
+      App.initSharedUI(() => {
+        renderAll();
+        if (awaitingNext && lastOutcome) {
+          showFeedbackModal(lastOutcome);
+        }
+      });
+      renderAll();
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+/* =========================================================
+   JOB DONE ? — Responsive Design (Tablets & Smartphones)
+   ========================================================= */
+
+@media (max-width: 1024px) {
+  .hero__grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .features-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .config-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .summary-panel {
+    position: static;
+  }
+
+  .game-main-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .board-track {
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (max-width: 720px) {
+  .container {
+    padding: 0 16px;
+  }
+
+  .navbar__inner {
+    padding: 10px 0;
+  }
+
+  .brand {
+    font-size: 1.15rem;
+  }
+
+  .hero {
+    padding: 44px 0 40px;
+  }
+
+  .features-grid,
+  .levels-grid,
+  .rules-grid,
+  .rules-points-grid,
+  .option-grid,
+  .option-grid--3,
+  .players-inputs,
+  .feedback-meta-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .board-track {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .board-cell {
+    min-height: 72px;
+    padding: 6px 4px;
+  }
+
+  .question-card {
+    padding: 22px 18px;
+  }
+
+  .question-card__statement {
+    font-size: 1.25rem;
+    min-height: 110px;
+    padding: 12px 4px 20px;
+  }
+
+  .answer-buttons {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .answer-btn {
+    padding: 18px 20px;
+    font-size: 1.2rem;
+    min-height: 62px;
+  }
+
+  .active-turn-banner__name {
+    font-size: 1.2rem;
+  }
+
+  .modal {
+    padding: 20px 18px;
+  }
+
+  .toast-container {
+    left: 16px;
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+@media (max-width: 420px) {
+  .board-track {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .hero__cta .btn {
+    width: 100%;
+  }
+}

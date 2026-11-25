@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JOB DONE ? — Réponses & Explications des 60 cartes</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/cartes.css" />
+  <link rel="stylesheet" href="css/responsive.css" />
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="index.html" class="brand" id="brandHomeLink" aria-label="JOB DONE ?">
+        <span class="brand__line">JOB ?</span>
+        <span class="brand__line">DONE</span>
+      </a>
+      <nav class="navbar__links" aria-label="Navigation principale">
+        <a href="index.html" class="nav-link is-active" id="navCardsLink">Les 60 cartes</a>
+        <a href="pages/qrcodes.html" class="nav-link">QR Codes (60)</a>
+        <a href="pages/regles.html" class="nav-link" data-i18n="navRules">Règles</a>
+      </nav>
+      <div class="navbar__actions">
+        <button type="button" class="icon-pill-btn" data-lang-toggle>FR ▾ EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- =====================================================
+         VIEW 1: CATALOG / LOOKUP (default when no ?id= param)
+         ===================================================== -->
+    <div id="catalogView">
+      <section class="lookup-hero">
+        <div class="container">
+          <span class="badge badge--gold" id="heroBadgeText">QR CODE · EXPLICATIONS OFFICIELLES DES CARTES</span>
+          <h1 class="lookup-hero__title">JOB DONE <span>?</span></h1>
+          <p class="lookup-hero__sub" id="heroSubText">
+            Scannez le QR code au dos de votre carte ou sélectionnez-la ci-dessous pour découvrir la bonne réponse et comprendre pourquoi.
+          </p>
+
+          <div class="lookup-controls">
+            <input
+              type="search"
+              id="searchInput"
+              class="search-input"
+              placeholder="Rechercher par numéro (ex: 12) ou mot-clé..."
+              aria-label="Rechercher une carte"
+            />
+            <div class="filter-tabs" role="tablist">
+              <button type="button" class="filter-tab is-active" data-filter="all" id="tabAll">Toutes (60)</button>
+              <button type="button" class="filter-tab filter-tab--simple" data-filter="simple" id="tabSimple">Niveau 1 · Simple (30)</button>
+              <button type="button" class="filter-tab filter-tab--difficile" data-filter="difficile" id="tabDifficile">Niveau 2 · Difficile (30)</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="container catalog-section">
+        <div class="catalog-grid" id="catalogGrid"></div>
+        <p id="emptyResults" style="text-align:center;padding:40px 0;font-weight:700;opacity:0.7;" hidden></p>
+      </section>
+    </div>
+
+    <!-- =====================================================
+         VIEW 2: SINGLE CARD EXPLANATION (QR CODE TARGET VIEW)
+         Opened directly via ?id=1..60 or ?carte=1..60
+         ===================================================== -->
+    <section class="container detail-view" id="detailView" hidden>
+      <div class="detail-topbar">
+        <button type="button" class="btn btn--secondary btn--sm" id="backToAllBtn">← Toutes les cartes</button>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+          <span class="badge" id="detailLevelBadge">NIVEAU 1 · SIMPLE</span>
+          <button type="button" class="btn btn--primary btn--sm" id="copyQrLinkBtn">Copier le lien QR</button>
+        </div>
+      </div>
+
+      <div class="detail-grid">
+        <!-- Physical Card Representation -->
+        <div class="detail-card-wrap">
+          <article class="jd-card jd-card--simple detail-card anim-pop" id="detailCard">
+            <div class="jd-card__logo" aria-hidden="true">
+              <span class="jd-card__logo-line">JOB ?</span>
+              <span class="jd-card__logo-line">DONE</span>
+            </div>
+            <div class="jd-card__body">
+              <div class="jd-card__statement" id="detailStatement"></div>
+              <div class="jd-card__sub" id="detailSubStatement"></div>
+            </div>
+            <div class="jd-card__footer" id="detailCardFooter">vrai.</div>
+          </article>
+        </div>
+
+        <!-- Official Answer & Pedagogical Explanation -->
+        <div class="detail-explanation-panel">
+          <div class="answer-verdict answer-verdict--true" id="answerVerdict">
+            <div>
+              <div class="answer-verdict__label" id="verdictLabel">LA BONNE RÉPONSE</div>
+              <div class="answer-verdict__value" id="verdictValue">VRAI</div>
+            </div>
+            <div style="font-size:2.4rem;font-weight:900;" id="verdictIcon">✓</div>
+          </div>
+
+          <div class="why-box">
+            <h2 class="why-box__title" id="whyTitle">Pourquoi c'est la bonne réponse ?</h2>
+            <p class="why-box__text" id="whyText"></p>
+          </div>
+
+          <div class="points-reminder" id="pointsReminder"></div>
+
+          <div class="detail-nav-actions">
+            <button type="button" class="btn btn--secondary btn--sm" id="prevCardBtn">← Carte précédente</button>
+            <button type="button" class="btn btn--secondary btn--sm" id="nextCardBtn">Carte suivante →</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__title" data-i18n="footerTagline">JOB DONE ? — Les soft skills au travail, ça se joue !</div>
+      <div class="footer__note" data-i18n="footerNote">60 cartes officielles · Réponses &amp; explications QR Code</div>
+    </div>
+  </footer>
+
+  <script src="js/questions.js"></script>
+  <script src="js/storage.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    (function () {
+      const App = JobDone.App;
+      const QUESTIONS = JobDone.QUESTIONS;
+
+      const UI_TEXT = {
+        fr: {
+          navCards: "Les 60 cartes",
+          heroBadge: "QR CODE · EXPLICATIONS OFFICIELLES DES CARTES",
+          heroSub: "Scannez le QR code au dos de votre carte ou sélectionnez-la ci-dessous pour découvrir la bonne réponse et comprendre pourquoi.",
+          searchPlaceholder: "Rechercher par numéro (ex: 12) ou mot-clé...",
+          tabAll: "Toutes (60)",
+          tabSimple: "Niveau 1 · Simple (30)",
+          tabDifficile: "Niveau 2 · Difficile (30)",
+          noResults: "Aucune carte ne correspond à votre recherche.",
+          backAll: "← Toutes les cartes",
+          copyQr: "Copier le lien QR",
+          copiedToast: "Lien QR copié ! Utilisez ce lien pour le QR code de cette carte.",
+          verdictLabel: "LA BONNE RÉPONSE",
+          whyTitle: "Pourquoi c'est la bonne réponse ?",
+          prevCard: "← Carte précédente",
+          nextCard: "Carte suivante →",
+          trueWord: "VRAI",
+          falseWord: "FAUX",
+          trueDot: "vrai.",
+          falseDot: "faux.",
+          pointsSimple: "Barème Niveau 1 (Simple) : Bonne réponse = +1 point · Mauvaise réponse = 0 point.",
+          pointsDifficile: "Barème Niveau 2 (Difficile) : Bonne réponse = +1 point · Mauvaise réponse = −1 point (jamais sous 0).",
+          cardLabel: "Carte"
+        },
+        en: {
+          navCards: "All 60 Cards",
+          heroBadge: "QR CODE · OFFICIAL CARD EXPLANATIONS",
+          heroSub: "Scan the QR code on the back of your card or select it below to see the right answer and understand why.",
+          searchPlaceholder: "Search by card number (e.g. 12) or keyword...",
+          tabAll: "All (60)",
+          tabSimple: "Level 1 · Easy (30)",
+          tabDifficile: "Level 2 · Hard (30)",
+          noResults: "No cards match your search.",
+          backAll: "← All cards",
+          copyQr: "Copy QR Link",
+          copiedToast: "QR link copied! Use this link for this card's QR code.",
+          verdictLabel: "THE RIGHT ANSWER",
+          whyTitle: "Why is this the right answer?",
+          prevCard: "← Previous card",
+          nextCard: "Next card →",
+          trueWord: "TRUE",
+          falseWord: "FALSE",
+          trueDot: "true.",
+          falseDot: "false.",
+          pointsSimple: "Level 1 (Easy) scoring: Right answer = +1 point · Wrong answer = 0 points.",
+          pointsDifficile: "Level 2 (Hard) scoring: Right answer = +1 point · Wrong answer = −1 point (never below 0).",
+          cardLabel: "Card"
+        }
+      };
+
+      let currentFilter = "all";
+      let currentSearch = "";
+      let activeCardId = null;
+
+      function txt(key) {
+        const lang = App.getLang();
+        return (UI_TEXT[lang] && UI_TEXT[lang][key]) || UI_TEXT.fr[key];
+      }
+
+      function parseCardIdFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+        const rawId = params.get("id") || params.get("carte") || params.get("card");
+        if (rawId) {
+          const num = parseInt(rawId, 10);
+          if (num >= 1 && num <= 60) return num;
+        }
+        const level = params.get("level");
+        const num = parseInt(params.get("num"), 10);
+        if (level && num >= 1 && num <= 30) {
+          const found = QUESTIONS.find((q) => q.level === level && q.number === num);
+          if (found) return found.id;
+        }
+        return null;
+      }
+
+      function setUrlCardId(id) {
+        try {
+          const url = new URL(window.location.href);
+          if (id) {
+            url.searchParams.set("id", String(id));
+          } else {
+            url.searchParams.delete("id");
+            url.searchParams.delete("carte");
+            url.searchParams.delete("card");
+            url.searchParams.delete("level");
+            url.searchParams.delete("num");
+          }
+          window.history.pushState({ cardId: id }, "", url.toString());
+        } catch (e) {
+          // ignore on restricted file:// origins
+        }
+      }
+
+      function updateStaticLabels() {
+        document.getElementById("navCardsLink").textContent = txt("navCards");
+        document.getElementById("heroBadgeText").textContent = txt("heroBadge");
+        document.getElementById("heroSubText").textContent = txt("heroSub");
+        document.getElementById("searchInput").placeholder = txt("searchPlaceholder");
+        document.getElementById("tabAll").textContent = txt("tabAll");
+        document.getElementById("tabSimple").textContent = txt("tabSimple");
+        document.getElementById("tabDifficile").textContent = txt("tabDifficile");
+        document.getElementById("emptyResults").textContent = txt("noResults");
+        document.getElementById("backToAllBtn").textContent = txt("backAll");
+        document.getElementById("copyQrLinkBtn").textContent = txt("copyQr");
+        document.getElementById("verdictLabel").textContent = txt("verdictLabel");
+        document.getElementById("whyTitle").textContent = txt("whyTitle");
+        document.getElementById("prevCardBtn").textContent = txt("prevCard");
+        document.getElementById("nextCardBtn").textContent = txt("nextCard");
+      }
+
+      function renderCatalog() {
+        const lang = App.getLang();
+        const grid = document.getElementById("catalogGrid");
+        const emptyEl = document.getElementById("emptyResults");
+        const q = currentSearch.trim().toLowerCase();
+
+        const filtered = QUESTIONS.filter((card) => {
+          if (currentFilter !== "all" && card.level !== currentFilter) return false;
+          if (!q) return true;
+          return (
+            String(card.id) === q ||
+            String(card.number) === q ||
+            card.question.fr.toLowerCase().includes(q) ||
+            card.question.en.toLowerCase().includes(q)
+          );
+        });
+
+        grid.innerHTML = "";
+        emptyEl.hidden = filtered.length > 0;
+
+        filtered.forEach((card) => {
+          const btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "catalog-card-btn";
+          btn.innerHTML = `
+            <article class="jd-card ${card.level === "simple" ? "jd-card--simple" : "jd-card--difficile"} catalog-card">
+              <span class="catalog-card__num">#${String(card.number).padStart(2, "0")}</span>
+              <div class="jd-card__logo" aria-hidden="true">
+                <span class="jd-card__logo-line">JOB ?</span>
+                <span class="jd-card__logo-line">DONE</span>
+              </div>
+              <div class="jd-card__body">
+                <p class="jd-card__statement">${App.escapeHtml(card.question[lang])}</p>
+              </div>
+            </article>
+          `;
+          btn.addEventListener("click", () => openCardDetail(card.id, true));
+          grid.appendChild(btn);
+        });
+      }
+
+      function openCardDetail(cardId, pushUrl) {
+        const card = QUESTIONS.find((c) => c.id === cardId);
+        if (!card) {
+          showCatalog(pushUrl);
+          return;
+        }
+        activeCardId = card.id;
+        if (pushUrl) setUrlCardId(card.id);
+
+        const lang = App.getLang();
+        const otherLang = lang === "fr" ? "en" : "fr";
+
+        document.getElementById("catalogView").hidden = true;
+        document.getElementById("detailView").hidden = false;
+
+        const levelBadge = document.getElementById("detailLevelBadge");
+        levelBadge.className = "badge " + (card.level === "simple" ? "badge--olive" : "badge--red");
+        levelBadge.textContent = `${App.t(card.level === "simple" ? "levelSimpleBadge" : "levelHardBadge")} · #${String(card.number).padStart(2, "0")}`;
+
+        const cardEl = document.getElementById("detailCard");
+        cardEl.classList.remove("jd-card--simple", "jd-card--difficile", "anim-pop");
+        void cardEl.offsetWidth;
+        cardEl.classList.add(card.level === "simple" ? "jd-card--simple" : "jd-card--difficile", "anim-pop");
+
+        document.getElementById("detailStatement").textContent = card.question[lang];
+        document.getElementById("detailSubStatement").textContent = card.question[otherLang];
+        document.getElementById("detailCardFooter").textContent = card.answer ? txt("trueDot") : txt("falseDot");
+
+        const verdict = document.getElementById("answerVerdict");
+        verdict.className = "answer-verdict " + (card.answer ? "answer-verdict--true" : "answer-verdict--false");
+        document.getElementById("verdictValue").textContent = card.answer ? txt("trueWord") : txt("falseWord");
+        document.getElementById("verdictIcon").textContent = card.answer ? "✓" : "✕";
+
+        document.getElementById("whyText").textContent = card.explanation[lang];
+        document.getElementById("pointsReminder").textContent =
+          card.level === "simple" ? txt("pointsSimple") : txt("pointsDifficile");
+
+        document.getElementById("prevCardBtn").disabled = card.id <= 1;
+        document.getElementById("nextCardBtn").disabled = card.id >= QUESTIONS.length;
+
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }
+
+      function showCatalog(pushUrl) {
+        activeCardId = null;
+        if (pushUrl) setUrlCardId(null);
+        document.getElementById("detailView").hidden = true;
+        document.getElementById("catalogView").hidden = false;
+        renderCatalog();
+      }
+
+      // Events
+      document.querySelectorAll("[data-filter]").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          currentFilter = tab.getAttribute("data-filter");
+          document.querySelectorAll("[data-filter]").forEach((t) => t.classList.toggle("is-active", t === tab));
+          renderCatalog();
+        });
+      });
+
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        currentSearch = e.target.value;
+        renderCatalog();
+      });
+
+      document.getElementById("backToAllBtn").addEventListener("click", () => showCatalog(true));
+      document.getElementById("brandHomeLink").addEventListener("click", (e) => {
+        if (activeCardId !== null) {
+          e.preventDefault();
+          showCatalog(true);
+        }
+      });
+      document.getElementById("navCardsLink").addEventListener("click", (e) => {
+        if (activeCardId !== null) {
+          e.preventDefault();
+          showCatalog(true);
+        }
+      });
+
+      document.getElementById("prevCardBtn").addEventListener("click", () => {
+        if (activeCardId && activeCardId > 1) openCardDetail(activeCardId - 1, true);
+      });
+      document.getElementById("nextCardBtn").addEventListener("click", () => {
+        if (activeCardId && activeCardId < QUESTIONS.length) openCardDetail(activeCardId + 1, true);
+      });
+
+      document.getElementById("copyQrLinkBtn").addEventListener("click", () => {
+        const shareUrl = window.location.href;
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(shareUrl).then(() => App.showToast(txt("copiedToast")));
+        } else {
+          App.showToast(shareUrl, 4000);
+        }
+      });
+
+      window.addEventListener("popstate", () => {
+        const id = parseCardIdFromUrl();
+        if (id) openCardDetail(id, false);
+        else showCatalog(false);
+      });
+
+      App.initSharedUI(() => {
+        updateStaticLabels();
+        if (activeCardId) openCardDetail(activeCardId, false);
+        else renderCatalog();
+      });
+
+      updateStaticLabels();
+      const initialId = parseCardIdFromUrl();
+      if (initialId) {
+        openCardDetail(initialId, false);
+      } else {
+        renderCatalog();
+      }
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JOB DONE ? — Les 60 QR Codes des cartes</title>
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/cartes.css" />
+  <link rel="stylesheet" href="../css/responsive.css" />
+  <style>
+    .qr-toolbar {
+      background-color: var(--color-white);
+      border: 2px solid var(--tint-black-10);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      margin: 24px 0;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: flex-end;
+      justify-content: space-between;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .qr-url-field {
+      flex: 1;
+      min-width: 260px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .qr-url-field label {
+      font-weight: 800;
+      font-size: 0.88rem;
+    }
+
+    .qr-url-input {
+      padding: 10px 14px;
+      border-radius: var(--radius-sm);
+      border: 2px solid var(--color-black);
+      font-weight: 600;
+      width: 100%;
+    }
+
+    .qr-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+      padding-bottom: 40px;
+    }
+
+    .qr-card {
+      background-color: var(--color-white);
+      border-radius: 16px;
+      border: 10px solid var(--color-olive);
+      padding: 16px 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 10px;
+      box-shadow: var(--shadow-sm);
+      break-inside: avoid;
+      page-break-inside: avoid;
+    }
+
+    .qr-card--difficile {
+      border-color: var(--color-red);
+    }
+
+    .qr-card__meta {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .qr-card__canvas {
+      background-color: var(--color-white);
+      padding: 8px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 156px;
+    }
+
+    .qr-card__canvas img,
+    .qr-card__canvas canvas {
+      display: block;
+      margin: 0 auto;
+    }
+
+    .qr-card__question {
+      font-size: 0.82rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--color-black);
+      min-height: 44px;
+    }
+
+    .qr-card__link {
+      font-size: 0.7rem;
+      word-break: break-all;
+      opacity: 0.7;
+    }
+
+    @media print {
+      .navbar, .lookup-hero, .qr-toolbar, .footer, .qr-card__actions {
+        display: none !important;
+      }
+      body {
+        background: #FFFFFF !important;
+      }
+      .qr-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="container navbar__inner">
+      <a href="../index.html" class="brand" aria-label="JOB DONE ?">
+        <span class="brand__line">JOB ?</span>
+        <span class="brand__line">DONE</span>
+      </a>
+      <nav class="navbar__links" aria-label="Navigation principale">
+        <a href="../index.html" class="nav-link">Les 60 cartes</a>
+        <a href="qrcodes.html" class="nav-link is-active">QR Codes (60)</a>
+        <a href="regles.html" class="nav-link" data-i18n="navRules">Règles</a>
+      </nav>
+      <div class="navbar__actions">
+        <button type="button" class="icon-pill-btn" data-lang-toggle>FR ▾ EN</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="lookup-hero">
+      <div class="container">
+        <span class="badge badge--gold">60 QR CODES · 1 PAR CARTE</span>
+        <h1 class="lookup-hero__title">QR CODES <span>JOB DONE ?</span></h1>
+        <p class="lookup-hero__sub">
+          Chaque QR code renvoie directement vers la bonne réponse et l'explication de sa carte sur le site. Imprimez la planche ou téléchargez chaque QR code individuellement.
+        </p>
+        <div class="filter-tabs" role="tablist">
+          <button type="button" class="filter-tab is-active" data-filter="all">Toutes (60)</button>
+          <button type="button" class="filter-tab filter-tab--simple" data-filter="simple">Niveau 1 · Simple (30)</button>
+          <button type="button" class="filter-tab filter-tab--difficile" data-filter="difficile">Niveau 2 · Difficile (30)</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="container">
+      <div class="qr-toolbar">
+        <div class="qr-url-field">
+          <label for="baseUrlInput">URL de base du site (GitHub Pages)</label>
+          <input
+            type="url"
+            id="baseUrlInput"
+            class="qr-url-input"
+            value="https://mjm30.github.io/Job-Done/"
+          />
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <button type="button" class="btn btn--secondary btn--sm" id="regenerateBtn">Actualiser les QR codes</button>
+          <button type="button" class="btn btn--primary btn--sm" id="printBtn">Imprimer les 60 QR codes</button>
+        </div>
+      </div>
+
+      <div class="qr-grid" id="qrGrid"></div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer__inner">
+      <div class="footer__title" data-i18n="footerTagline">JOB DONE ? — Les soft skills au travail, ça se joue !</div>
+      <div class="footer__note">60 QR codes officiels · 1 QR code par carte</div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="../js/questions.js"></script>
+  <script src="../js/storage.js"></script>
+  <script src="../js/app.js"></script>
+  <script>
+    (function () {
+      const App = JobDone.App;
+      const QUESTIONS = JobDone.QUESTIONS;
+      let currentFilter = "all";
+
+      function normalizeBaseUrl(raw) {
+        let url = (raw || "").trim();
+        if (!url) url = "https://mjm30.github.io/Job-Done/";
+        if (!url.endsWith("/") && !url.endsWith(".html")) url += "/";
+        return url;
+      }
+
+      function renderQRCodes() {
+        const lang = App.getLang();
+        const baseUrl = normalizeBaseUrl(document.getElementById("baseUrlInput").value);
+        const grid = document.getElementById("qrGrid");
+        grid.innerHTML = "";
+
+        const list = QUESTIONS.filter((q) => currentFilter === "all" || q.level === currentFilter);
+
+        list.forEach((card) => {
+          const targetUrl = `${baseUrl}?id=${card.id}`;
+          const item = document.createElement("article");
+          item.className = "qr-card " + (card.level === "difficile" ? "qr-card--difficile" : "");
+
+          const levelLabel = card.level === "simple" ? "Niv. 1 · Simple" : "Niv. 2 · Difficile";
+          const qrBoxId = `qr-box-${card.id}`;
+
+          item.innerHTML = `
+            <div class="qr-card__meta">
+              <span class="badge ${card.level === "simple" ? "badge--olive" : "badge--red"}">${levelLabel}</span>
+              <span>#${String(card.number).padStart(2, "0")}</span>
+            </div>
+            <div class="qr-card__canvas" id="${qrBoxId}"></div>
+            <div class="qr-card__question">${App.escapeHtml(card.question[lang])}</div>
+            <div class="qr-card__link">${App.escapeHtml(targetUrl)}</div>
+            <div class="qr-card__actions">
+              <button type="button" class="btn btn--secondary btn--sm" data-download-id="${card.id}">Télécharger PNG</button>
+            </div>
+          `;
+          grid.appendChild(item);
+
+          const qrContainer = document.getElementById(qrBoxId);
+          if (typeof QRCode !== "undefined") {
+            new QRCode(qrContainer, {
+              text: targetUrl,
+              width: 144,
+              height: 144,
+              colorDark: "#191102",
+              colorLight: "#FFFFFF",
+              correctLevel: QRCode.CorrectLevel.M
+            });
+          } else {
+            qrContainer.textContent = "QR Code indisponible hors-ligne";
+          }
+        });
+
+        grid.querySelectorAll("[data-download-id]").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const id = btn.getAttribute("data-download-id");
+            const card = QUESTIONS.find((q) => String(q.id) === String(id));
+            const box = document.getElementById(`qr-box-${id}`);
+            const canvas = box && box.querySelector("canvas");
+            const img = box && box.querySelector("img");
+            const dataUrl = canvas ? canvas.toDataURL("image/png") : (img ? img.src : null);
+            if (!dataUrl) return;
+            const a = document.createElement("a");
+            a.href = dataUrl;
+            a.download = `job-done-qr-${card.level}-${String(card.number).padStart(2, "0")}.png`;
+            a.click();
+          });
+        });
+      }
+
+      document.querySelectorAll("[data-filter]").forEach((tab) => {
+        tab.addEventListener("click", () => {
+          currentFilter = tab.getAttribute("data-filter");
+          document.querySelectorAll("[data-filter]").forEach((t) => t.classList.toggle("is-active", t === tab));
+          renderQRCodes();
+        });
+      });
+
+      document.getElementById("regenerateBtn").addEventListener("click", renderQRCodes);
+      document.getElementById("printBtn").addEventListener("click", () => window.print());
+
+      App.initSharedUI(renderQRCodes);
+      renderQRCodes();
+    })();
+  </script>
+</body>
+</html>
